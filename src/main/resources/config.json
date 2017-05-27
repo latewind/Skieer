@@ -1,0 +1,73 @@
+{
+  "dbUserName": "skieer",
+  "dbPassWord": "skieer",
+  "dbDriverName": "oracle.jdbc.driver.OracleDriver",
+  "dbUrl": "jdbc:oracle:thin:@localhost:1521:wind",
+  "username": "sdecode",
+  "password": "ecode1234",
+  "grantType": "password",
+  "tokenUrl": "http://dataapi.bazhuayu.com/token",
+  "dataApiUrl": "http://dataapi.bazhuayu.com/api/alldata",
+  "model":"APPEND",
+  "dataFetcherNum":5,
+  "dataParserNum":5,
+  "dataSaverNum":5,
+  "taskList": [
+    {
+      "taskName": "21世纪不动产",
+      "taskId": "4df8f24e-6ca9-48a9-8982-ed36079433d9",
+      "tableName": "second_house",
+      "column": {
+        "来源": "source_website",
+        "标题": "title",
+        "小区": "residential",
+        "所属楼层": "floor",
+        "地址": "address",
+        "房屋面积": "space",
+        "户型": "house_type",
+        "朝向": "orientation",
+        "挂牌时间": "listed_date",
+        "挂牌总价": "listed_total",
+        "挂牌单价": "listed_unit_price",
+        "容积率": "volume_ratio",
+        "绿化率": "green_rate",
+        "产权性质": "property_rights",
+        "物业费": "property_fee",
+        "物业名称": "property_name",
+        "交通情况": "traffic",
+        "周边配套": "surround_condition",
+        "装修情况": "decorator",
+        "购买时间": "buying_date",
+        "采集时间": "grep_date"
+      }
+    },
+    {
+      "taskName": "房天下",
+      "tableName": "second_house",
+      "taskId": "afb566ab-e749-4895-a7a2-5e9a860310a9",
+      "column": {
+        "来源": "source_website",
+        "标题": "title",
+        "小区": "residential",
+        "楼层": "floor",
+        "地址": "address",
+        "房屋面积": "space",
+        "户型": "house_type",
+        "朝向": "orientation",
+        "挂牌时间": "listed_date",
+        "挂牌总价": "listed_total",
+        "挂牌单价": "listed_unit_price",
+        "容积率": "volume_ratio",
+        "绿化率": "green_rate",
+        "产权性质": "property_rights",
+        "物业费": "property_fee",
+        "物业名称": "property_name",
+        "交通情况": "traffic",
+        "周边配套": "surround_condition",
+        "装修情况": "decorator",
+        "购买时间": "buying_date",
+        "采集时间": "grep_date"
+      }
+    }
+  ]
+}
