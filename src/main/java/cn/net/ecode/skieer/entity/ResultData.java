@@ -3,6 +3,7 @@ package cn.net.ecode.skieer.entity;
 import cn.net.ecode.skieer.config.TaskBaseConfig;
 
 /**
+ * 八爪鱼返回JSON结构
  * Created by Li Shang Qing on 2017/5/25.
  */
 public class ResultData {

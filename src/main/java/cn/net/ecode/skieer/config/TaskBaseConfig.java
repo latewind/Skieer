@@ -3,13 +3,14 @@ package cn.net.ecode.skieer.config;
 import java.util.Map;
 
 /**
- * 任务基本信息（任务名，任务ID，任务对应的数据库表结构与任务段名的映射关系）
+ * 任务基本配置信息（任务名，任务ID，任务对应的数据库表结构与任务段名的映射关系）
  * Created by Li Shang Qing  on 2017/5/25.
  */
 public class TaskBaseConfig {
     private String taskName;
     private String taskId;
     private String tableName;
+    private Boolean open;
     private Map<String,String> column;
 
     public TaskBaseConfig(){
@@ -45,5 +46,13 @@ public class TaskBaseConfig {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
     }
 }

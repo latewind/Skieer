@@ -3,6 +3,7 @@ package cn.net.ecode.skieer.entity;
 import cn.net.ecode.skieer.config.TaskBaseConfig;
 
 /**
+ * 任务结构实体
  * Created by Li Shang Qing on 2017/5/27.
  */
 public class TaskInfo {

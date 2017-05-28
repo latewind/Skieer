@@ -3,6 +3,7 @@ package cn.net.ecode.skieer.entity;
 import java.util.Map;
 
 /**
+ * 八爪鱼返回数据中Data子结构对应实体
  * Created by Li Shang Qing on 2017/5/25.
  */
 public class Data {
