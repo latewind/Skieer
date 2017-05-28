@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 
@@ -32,12 +33,11 @@ public class SkieerConn extends HttpConn {
         }
 
         token = gson.fromJson(result, Token.class);
-
         return token;
     }
 
 	//获取八爪鱼Token
-	public Token getToken() throws JSONException, IOException {
+	public static Token getToken() throws JSONException, IOException {
 
 		return token;
 	}
@@ -48,7 +48,6 @@ public class SkieerConn extends HttpConn {
                 new BasicNameValuePair("grant_type", JSONConfig.getInstance().getGrantType())};
         return  args;
     }
-
 	public static String buildDataUrl(TaskInfo taskInfo) {
 		return buildDataUrl(taskInfo.getTaskBaseConfig().getTaskId(),taskInfo.getPageIndex(),taskInfo.getPageSize());
 	}
@@ -80,7 +79,14 @@ public class SkieerConn extends HttpConn {
 		return  new ResultData();
 	}
 
-	public static void main(String[] args) {
+    @Override
+    protected void buildRequestHeader(HttpRequestBase httpRequestBase) {
+        httpRequestBase.setHeader("Accept", "application/json");
+        httpRequestBase.setHeader("Authorization", "bearer " + token);
+	    super.buildRequestHeader(httpRequestBase);
+    }
+
+    public static void main(String[] args) {
         try {
             new   SkieerConn().getToken();
         } catch (JSONException e) {

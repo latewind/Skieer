@@ -14,10 +14,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -34,7 +31,7 @@ public class HttpConn {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static String submitForm(String url, NameValuePair[] args) throws ClientProtocolException, IOException {
+	public static String submitForm(String url, NameValuePair[] args) throws IOException {
 		String resultStr = "";
 		CloseableHttpClient httpclient = HttpClients.custom().build();
 		try {
@@ -56,8 +53,7 @@ public class HttpConn {
 		CloseableHttpClient httpclient = HttpClients.custom().build();
 		try {
 			HttpGet httpget = new HttpGet(url);
-			httpget.setHeader("Accept", "application/json");
-			httpget.setHeader("Authorization", "bearer " + token);
+            buildRequestHeader(httpget);
 			CloseableHttpResponse response = httpclient.execute(httpget);
 			try {
 				HttpEntity entity = response.getEntity();
@@ -75,6 +71,9 @@ public class HttpConn {
 		}
 		return resultStr;
 	}
+	protected void buildRequestHeader(HttpRequestBase httpRequestBase){
+
+    }
 
 	public static void main(String[] args) {
 
