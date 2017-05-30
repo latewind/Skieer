@@ -7,6 +7,8 @@ import cn.net.ecode.skieer.conn.SkieerConn;
 import cn.net.ecode.skieer.constant.Constant;
 import cn.net.ecode.skieer.entity.ResultData;
 import cn.net.ecode.skieer.entity.TaskInfo;
+import cn.net.ecode.skieer.gui.MsgObservable;
+import cn.net.ecode.skieer.gui.MsgObserver;
 import cn.net.ecode.skieer.tools.SqlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +25,31 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by Li Shang Qing on 2017/5/25.
  */
-public class TaskRunner {
+public class TaskRunner implements MsgObservable{
     private BlockingQueue<TaskInfo> taskQueue = new LinkedBlockingQueue<TaskInfo>(Constant.MAX_QUEUE_SIZE.getValue());//采集任务队列
     private BlockingQueue<ResultData> retDataQueue = new LinkedBlockingQueue<ResultData>(Constant.MAX_QUEUE_SIZE.getValue());//返回结果队列
     private BlockingQueue<String> sqlQueue = new LinkedBlockingQueue<String>();//sql语句队列
     private ExecutorService fetcherRunner=Executors.newFixedThreadPool(Constant.MAX_FETCHER_NUM.getValue());
     private ExecutorService runner = Executors.newCachedThreadPool();
     Logger logger = LoggerFactory.getLogger(TaskRunner.class);
+   private MsgObserver msgObserver;
 
+    public void registeObserver(MsgObserver msgObserver) {
+            this.msgObserver=msgObserver;
+    }
+    public void notice(String msg){
+        if(msgObserver!=null){
+            msgObserver.update(msg);
+        }
+    }
     public void runTask() {
-        if (("APPEND").equals(JSONConfig.getInstance().getModel())) {
+        notice("start Task...");
+        if (("SINGLE").equals(JSONConfig.getInstance().getModel())) {
             startSingleFetcher();
-            System.out.println("append");
+            System.out.println("SINGLE");
         } else {
             startDualFetcher();
-            System.out.println("Export Model");
+            System.out.println("DUAL");
         }
         //     startParser();
         //     startSaver();
@@ -93,6 +105,8 @@ public class TaskRunner {
     public static void main(String[] args) {
         new TaskRunner().runTask();
     }
+
+
 
     //任务分发器
     public class TaskDispatcher implements Runnable {
@@ -184,12 +198,14 @@ public class TaskRunner {
                 }
             }
             System.out.println("finished:" + taskBaseConfig.getTaskName());
+            notice("finished:" + taskBaseConfig.getTaskName());
         }
 
         private boolean haveNotExportedData(ResultData data) {
             Integer total = data.getData().getTotal();
             Integer maxsize = (int) Math.ceil((double) total / (double) pageSize);
             System.out.println(Thread.currentThread() + ":" + pageIndex + ":" + maxsize);
+            notice(Thread.currentThread() + ":" + pageIndex + ":" + maxsize);
             return pageIndex <= maxsize ? true : false;
         }
 

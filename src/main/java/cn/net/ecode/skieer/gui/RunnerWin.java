@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class RunnerWin extends JDialog {
+public class RunnerWin extends JDialog implements MsgObserver{
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -45,9 +45,10 @@ public class RunnerWin extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        initDialog();
+        initDialogLocation();
+        taskRunner.registeObserver(this);
     }
-    private void initDialog(){
+    private void initDialogLocation(){
       this.setPreferredSize(new Dimension(500,300));
       this.setLocationRelativeTo(null);
     }
@@ -63,6 +64,7 @@ public class RunnerWin extends JDialog {
         dispose();
     }
 
+
     public static void main(String[] args) {
         RunnerWin dialog = new RunnerWin();
         dialog.pack();
@@ -70,4 +72,8 @@ public class RunnerWin extends JDialog {
         System.exit(0);
     }
 
+
+    public void update(String msg) {
+        textArea.append(msg+"\n\r");
+    }
 }

@@ -15,7 +15,7 @@ public enum Constant {
 	MAX_FETCHER_NUM(2);
 	private Integer value;
 
-	private Constant(Integer value) {
+	 Constant(Integer value) {
 		this.value = value;
 	}
 
