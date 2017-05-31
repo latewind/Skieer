@@ -36,7 +36,7 @@ public class DBConn {
 
         // 释放资源，注意关闭的顺序
         public static void closeAll(Connection conn, Statement stmt, ResultSet rs) {
-            //
+
             if (rs != null) {
                 try {
                     rs.close();
