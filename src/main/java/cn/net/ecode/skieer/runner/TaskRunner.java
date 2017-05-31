@@ -51,8 +51,8 @@ public class TaskRunner implements MsgObservable{
             startDualFetcher();
             System.out.println("DUAL");
         }
-        //     startParser();
-        //     startSaver();
+             startParser();
+             startSaver();
     }
 
     private void startSingleFetcher() {
@@ -97,7 +97,7 @@ public class TaskRunner implements MsgObservable{
 
     private void startSaver() {
         for (int i = 0; i < JSONConfig.getInstance().getDataParserNum(); i++) {
-            runner.submit(new DataParser());
+            runner.submit(new DataSaver());
         }
     }
 
@@ -248,6 +248,7 @@ public class TaskRunner implements MsgObservable{
                 while (true) {
                     try {
                         sql = sqlQueue.take();
+
                         stmt.executeUpdate(sql);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -256,6 +257,7 @@ public class TaskRunner implements MsgObservable{
                         e.printStackTrace();
                         System.out.println("insert error");
                         logger.warn(e.toString());
+                        logger.error(sql);
                     }
                 }
             } catch (SQLException e) {
