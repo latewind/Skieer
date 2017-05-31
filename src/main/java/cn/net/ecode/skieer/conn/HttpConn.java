@@ -8,13 +8,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import cn.net.ecode.skieer.entity.Token;
+import cn.net.ecode.skieer.exceptions.SkieerHttpResponseException;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -31,7 +31,7 @@ public class HttpConn {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public String submitForm(String url, NameValuePair[] args) throws ClientProtocolException, IOException {
+	public static String submitForm(String url, NameValuePair[] args) throws IOException {
 		String resultStr = "";
 		CloseableHttpClient httpclient = HttpClients.custom().build();
 		try {
@@ -48,19 +48,21 @@ public class HttpConn {
 		return resultStr;
 	}
 
-	public String get(String url, String token) throws IOException {
-
+	public String get(String url, Token token) throws IOException, SkieerHttpResponseException {
 		String resultStr="";
 		CloseableHttpClient httpclient = HttpClients.custom().build();
 		try {
 			HttpGet httpget = new HttpGet(url);
-			httpget.setHeader("Accept", "application/json");
-			httpget.setHeader("Authorization", "bearer " + token);
+            buildRequestHeader(httpget);
 			CloseableHttpResponse response = httpclient.execute(httpget);
 			try {
 				HttpEntity entity = response.getEntity();
-				System.out.println("Login form get: " + response.getStatusLine());
-				resultStr=EntityUtils.toString(entity);
+				System.out.println("get: " + response.getStatusLine());
+				if(response.getStatusLine().getStatusCode()!=200){
+					throw new SkieerHttpResponseException(url+token);
+				}
+                System.out.println(url);
+                resultStr=EntityUtils.toString(entity);
 			} finally {
 				response.close();
 			}
@@ -69,8 +71,13 @@ public class HttpConn {
 		}
 		return resultStr;
 	}
+	protected void buildRequestHeader(HttpRequestBase httpRequestBase){
+
+    }
 
 	public static void main(String[] args) {
 
 	}
+
+
 }

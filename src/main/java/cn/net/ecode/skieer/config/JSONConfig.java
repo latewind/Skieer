@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 
 /**
- * 读取配置文件
+ * 全局配置表config.json
  * Created by Li Shang Qing on 2017/5/25.
  */
 public class JSONConfig {
