@@ -27,7 +27,10 @@ public class JSONConfig {
     private Integer dataParserNum;
     private Integer dataSaverNum;
     private static JSONConfig config;
-    static{
+    static {
+        reloadConfig();
+    }
+    public static  void reloadConfig(){
         Reader reader = null;
         try {
             reader = new InputStreamReader(JSONConfig.class.getResourceAsStream("/config.json"), "UTF-8");
@@ -36,6 +39,7 @@ public class JSONConfig {
         }
         Gson gson = new GsonBuilder().create();
         config = gson.fromJson(reader, JSONConfig.class);
+
     }
 
     public static JSONConfig getInstance(){

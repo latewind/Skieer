@@ -38,6 +38,7 @@ public class TaskRunner implements MsgObservable{
    private TimerTask timerTask=new TimerTask() {
        @Override
        public void run() {
+           JSONConfig.reloadConfig();
            startAppendDataFetcher();
        }
    };
