@@ -48,7 +48,7 @@ public class HttpConn {
 		return resultStr;
 	}
 
-	public String get(String url, Token token) throws IOException, SkieerHttpResponseException {
+	public String getData(String url, Token token) throws IOException, SkieerHttpResponseException {
 		String resultStr="";
 		CloseableHttpClient httpclient = HttpClients.custom().build();
 		try {
@@ -57,16 +57,19 @@ public class HttpConn {
 			CloseableHttpResponse response = httpclient.execute(httpget);
 			try {
 				HttpEntity entity = response.getEntity();
-				System.out.println("get: " + response.getStatusLine());
+				System.out.println("get: " + response.getStatusLine()+Thread.currentThread().getName());
 				if(response.getStatusLine().getStatusCode()!=200){
+					resultStr=EntityUtils.toString(entity);
 					throw new SkieerHttpResponseException(url+token);
 				}
-                System.out.println(url);
+
                 resultStr=EntityUtils.toString(entity);
 			} finally {
+				System.out.println(resultStr);
 				response.close();
 			}
 		} finally {
+			System.out.println(url);
 			httpclient.close();
 		}
 		return resultStr;

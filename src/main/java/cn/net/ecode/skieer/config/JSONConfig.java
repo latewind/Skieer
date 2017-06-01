@@ -20,6 +20,7 @@ public class JSONConfig {
     private String grantType;
     private String tokenUrl;
     private String dataApiUrl;
+    private String appendDataApiUrl;
     private TaskBaseConfig[] taskList;
     private String model;
     private Integer dataFetcherNum;
@@ -159,5 +160,13 @@ public class JSONConfig {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getAppendDataApiUrl() {
+        return appendDataApiUrl;
+    }
+
+    public void setAppendDataApiUrl(String appendDataApiUrl) {
+        this.appendDataApiUrl = appendDataApiUrl;
     }
 }

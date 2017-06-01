@@ -48,21 +48,27 @@ public class SkieerConn extends HttpConn {
                 new BasicNameValuePair("grant_type", JSONConfig.getInstance().getGrantType())};
         return  args;
     }
-	public static String buildDataUrl(TaskInfo taskInfo) {
-		return buildDataUrl(taskInfo.getTaskBaseConfig().getTaskId(),taskInfo.getPageIndex(),taskInfo.getPageSize());
+	public static String buildExportAllDataUrl(TaskInfo taskInfo) {
+		return buildExportAllDataUrl(taskInfo.getTaskBaseConfig().getTaskId(),taskInfo.getPageIndex(),taskInfo.getPageSize());
 	}
-	public static String buildDataUrl(String taskId, Integer pageIndex, Integer pageSize) {
+	public static String buildExportAllDataUrl(String taskId, Integer pageIndex, Integer pageSize) {
 		StringBuilder builder = new StringBuilder(JSONConfig.getInstance().getDataApiUrl());
 		builder.append("?taskid=" + taskId);
 		builder.append("&pageindex=" + pageIndex);
 		builder.append("&pagesize=" + pageSize);
 		return builder.toString();
 	}
-	public static  ResultData startup(TaskBaseConfig taskBaseConfig, String url) {
+	public static String buildAppendDataUrl(String taskId, Integer size) {
+		StringBuilder builder = new StringBuilder(JSONConfig.getInstance().getAppendDataApiUrl());
+		builder.append("?taskid=" + taskId);
+		builder.append("&size=" + size);
+		return builder.toString();
+	}
+	public static  ResultData startup(TaskBaseConfig taskBaseConfig, String url) throws SkieerHttpResponseException {
 		try {
 			SkieerConn conn=new SkieerConn();
 			Token token = conn.getToken();
-			String result=conn.get(url, token);
+			String result=conn.getData(url, token);
             Gson gson = new GsonBuilder().create();
             ResultData retData = gson.fromJson(result, ResultData.class);
 			retData.setTaskBaseConfig(taskBaseConfig);
@@ -72,8 +78,6 @@ public class SkieerConn extends HttpConn {
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SkieerHttpResponseException e) {
 			e.printStackTrace();
 		}
 		return  new ResultData();

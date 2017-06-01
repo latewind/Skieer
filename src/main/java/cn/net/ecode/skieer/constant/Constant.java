@@ -13,7 +13,8 @@ public enum Constant {
 	DATA_DETECT_PAGE_SIZE(100),
     MAX_QUEUE_SIZE(1000),
 	MAX_FETCHER_NUM(2),
-	MAX_COLUMN_LEN(512);
+	MAX_COLUMN_LEN(512),
+	MAX_DATA_SIZE(1000);
 	private Integer value;
 
 	 Constant(Integer value) {
